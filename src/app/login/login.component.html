@@ -1,0 +1,38 @@
+<body>
+    <app-navbar></app-navbar>
+
+    <div class="container">
+        <div class="row form-wrapper">
+            <div class="col">
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-8 col-10 card card-container" height="100%">
+                <div>
+                    <h1 class="text-center">
+                        Log in!
+                    </h1>
+                </div>
+                <form [formGroup]="logInForm" class="needs-validation" ngNativeValidate (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password" id="password" required>
+                        <div style="margin-top: 2vh;" *ngIf="incorrectAttempt">
+                            <small class="text-center" style="color: red;">Wrong email and password combination</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Submit</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+                <p>Not a VirusTotal memeber? Register <a href="../register/">here</a></p>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</body>

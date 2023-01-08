@@ -1,0 +1,51 @@
+<body>
+    <app-navbar></app-navbar>
+    <div class="container">
+        <div class="row form-wrapper">
+            <div class="col">
+            </div>
+            <div class="col-md-6 col-sm-8 col-10 card card-container" height="100%">
+                <div style="margin-bottom: 2vh;">
+                    <h1 class="text-center">
+                        Create your account!
+                    </h1>
+                </div>
+                <form [formGroup]="registerForm" class="needs-validation" ngNativeValidate (ngSubmit)="onSubmit()" autocomplete="off">
+
+                    <div class="row">
+                        <div class="mb-3 col-12 col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" formControlName="username" required>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label for="name" class="form-label">Full name</label>
+                            <input type="text" class="form-control" id="name" formControlName="name">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password" id="password" required>
+                    </div>
+                    <div style="margin-top: 2vh;" *ngIf="invalidAttempt">
+                        <small class="text-center" style="color: red;">This email is unavailable</small>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Submit</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</body>

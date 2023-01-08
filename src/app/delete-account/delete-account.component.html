@@ -1,0 +1,38 @@
+<body>
+    <app-navbar></app-navbar>
+    <div class="container">
+        <div class="row form-wrapper">
+            <div class="col">
+            </div>
+            <div class="col-md-6 col-sm-8 col-10 card card-container" height="100%">
+                <div style="margin-bottom: 2vh;">
+                    <h1 class="text-center">
+                        Sorry to see you go...
+                    </h1>
+                    <p>
+                        We are deeply sorry to see you go, you will be missed. This is an irreversible action!
+                    </p>
+                    <p>
+                        For security reasons, please insert your email address bellow.
+                    </p>
+                </div>
+                <form [formGroup]="deleteAccountForm" class="needs-validation" ngNativeValidate (ngSubmit)="onSubmit()" autocomplete="off">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" required>
+                    </div>
+                    <div style="margin-top: 2vh;" *ngIf="invalidAttempt">
+                        <small class="text-center" style="color: red;">Invalid email account</small>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-danger">Submit</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</body>

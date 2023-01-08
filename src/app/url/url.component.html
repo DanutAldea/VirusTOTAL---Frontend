@@ -1,0 +1,122 @@
+<body>
+    <app-navbar></app-navbar>
+    <div class="row" style="margin-top: 5vh;">
+        <div class="col"></div>
+        <div class="col text-center"><img src="../../assets/url.png" height="206" width="206"></div>
+        <div class="col"></div>
+    </div>
+
+    <div class="text-center" style="margin-top: 5vh;">
+        <div class="btn-group me-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-secondary" (click)="searchByAddressButton()">URL Address</button>
+            <button type="button" class="btn btn-secondary" (click)="searchByUserButton()">User</button>
+            <button type="button" *ngIf="isLoggedIn" class="btn btn-secondary" (click)="addAddressButton()">Add URL</button>
+            <button type="button" *ngIf="isLoggedIn" class="btn btn-secondary" (click)="deleteUrlButton()">Delete URL</button>
+        </div>
+    </div>
+
+    <div *ngIf="displaySearch" style="padding-left: 5vh; padding-right: 5vh;">
+        <div *ngIf="searchByURL" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="addressForm" class="needs-validation" ngNativeValidate (ngSubmit)="onAddressSubmit()">
+                    <label for="urlAddress" class="form-label">Search by URL address</label>
+                    <input type="text" class="form-control" id="urlAddress" formControlName="urlAddress" placeholder="exampleURL.com" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Search</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="searchByUser" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="userForm" class="needs-validation" ngNativeValidate (ngSubmit)="onUserSubmit()">
+                    <label for="userEmail" class="form-label">Search by email address</label>
+                    <input type="email" class="form-control" id="userEmail" formControlName="userEmail" placeholder="example@gmail.com" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Search</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="addURL" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="addUrlForm" class="needs-validation" ngNativeValidate (ngSubmit)="onAddUrlSubmit()">
+                    <label for="addedUrlAddress" class="form-label">Insert susipicious URL address</label>
+                    <input type="text" class="form-control" id="addedUrlAddress" formControlName="addedUrlAddress" placeholder="exampleURL.com" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Add URL</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="deleteURL" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="deleteUrlForm" class="needs-validation" ngNativeValidate (ngSubmit)="onDeleteUrlSubmit()">
+                    <label for="deletedUrlAddress" class="form-label">Insert URL address tou want to remove</label>
+                    <input type="text" class="form-control" id="deletedUrlAddress" formControlName="deletedUrlAddress" placeholder="exampleURL.com" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Remove</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <div *ngIf="displayResults" style="padding-left: 5vh; padding-right: 5vh; padding-top: 5vh;">
+        <div *ngIf="urlGood" class="text-center">
+            <img src="../../assets/good.png" width="250px" height="250px">
+            <p style="padding-top: 5vh; color: white; font-weight:500; font-size: larger;">We have no information about this URL</p>
+        </div>
+        <div *ngIf="urlBad"  class="text-center">
+            <img src="../../assets/bad.png" width="200px" height="200px" style="margin-top: 2vh; margin-bottom: 5vh;">
+            <p style="padding-top: 5vh; color: white; font-weight:500;  font-size: larger;">This URL is malicious!</p>
+        </div>
+
+        <div *ngIf="userResult">
+            <div *ngIf="urlArray.length == 0" class="row">
+                <div class="col"></div>
+                <div class="col-lg-4 col-md-6 col-sm-8 col-12 card card-container" style="padding-top: 10vh; padding-bottom: 10vh; margin-top: 5vh;">
+                    <h4 class="text-center">This user uploaded no URLs</h4>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div *ngIf="urlArray.length != 0">
+                <h5 class="text-center">Malicious URLs</h5>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 card card-container" style="padding-top: 2vh; padding-bottom: 2vh; margin-top: 2vh;">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let url of urlArray">
+                                {{url.addr}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

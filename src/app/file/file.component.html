@@ -1,0 +1,150 @@
+<body>
+    <app-navbar></app-navbar>
+    <div class="row" style="margin-top: 5vh;">
+        <div class="col"></div>
+        <div class="col text-center"><img src="../../assets/file.png" height="206" width="206"></div>
+        <div class="col"></div>
+    </div>
+
+    <div class="text-center" style="margin-top: 5vh;">
+        <div class="btn-group me-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-secondary" (click)="searchByDigestButton()">File</button>
+            <button type="button" class="btn btn-secondary" (click)="searchByUserButton()">User</button>
+            <button type="button" *ngIf="isLoggedIn" class="btn btn-secondary" (click)="addFileButton()">Add File</button>
+            <button type="button" *ngIf="isLoggedIn" class="btn btn-secondary" (click)="deleteFileButton()">Delete File</button>
+        </div>
+    </div>
+
+    <div *ngIf="displaySearch" style="padding-left: 5vh; padding-right: 5vh;">
+        <div *ngIf="searchByDigest" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="fileForm" class="needs-validation" ngNativeValidate (ngSubmit)="onFileSubmit()">
+                    <div class="text-center" style="margin-top: 2vh; margin-bottom: 2vh;">
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" class="btn btn-secondary" (click)="insertFileButton()">Search File</button>
+                            <button type="button" class="btn btn-secondary" (click)="insertDigestButton()">Search Digest</button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="insertFile">
+                        <label for="urlAddress" class="form-label">Choose susipicious file</label>
+                        <input type="file" class="form-control form-control-lg" id="file" (change)="onSearchFileChange($event)" required>
+                    </div>
+                    <div *ngIf="insertDigest">
+                        <label for="formFileLg" class="form-label">Insert susipicious file SHA512 digest</label>
+                        <input type="text" class="form-control form-control-lg" id="fileDigest" formControlName="fileDigest"required>
+                    </div>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Search</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="searchByUser" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="userForm" class="needs-validation" ngNativeValidate (ngSubmit)="onUserSubmit()">
+                    <label for="userEmail" class="form-label">Search by email address</label>
+                    <input type="email" class="form-control" id="userEmail" formControlName="userEmail" placeholder="example@gmail.com" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Search</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="addFile" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="addFileForm" class="needs-validation" ngNativeValidate (ngSubmit)="onAddFileSubmit()">
+                    <label for="formFileLg" class="form-label">Choose susipicious file</label>
+                    <input type="file" class="form-control form-control-lg" id="formFileLg" (change)="onAddFileChange($event)" required>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Add File</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div *ngIf="deleteFile" class="row" style="margin-top: 10vh;">
+            <div class="col"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form [formGroup]="deleteFileForm" class="needs-validation" ngNativeValidate (ngSubmit)="onDeleteFileSubmit()">
+
+                    <div class="text-center" style="margin-top: 2vh; margin-bottom: 2vh;">
+                        <div class="btn-group me-2" role="group" aria-label="Second group">
+                            <button type="button" class="btn btn-secondary" (click)="insertFileButton()">Delete File</button>
+                            <button type="button" class="btn btn-secondary" (click)="insertDigestButton()">Delete Digest</button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="insertFile">
+                        <label for="formFileLg" class="form-label">Choose susipicious file</label>
+                        <input type="file" class="form-control form-control-lg" id="file" (change)="onDeleteFileChange($event)" required>
+                    </div>
+                    <div *ngIf="insertDigest">
+                        <label for="formFileLg" class="form-label">Insert susipicious file SHA512 digest</label>
+                        <input type="text" class="form-control form-control-lg" id="fileDigest" formControlName="fileDigest"required>
+                    </div>
+
+                    <div class="row" style="margin-top: 5vh;">
+                        <div class="col"></div>
+                        <button type="submit" class="col button btn btn-primary">Remove</button>
+                        <div class="col"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <div *ngIf="displayResults" style="padding-left: 5vh; padding-right: 5vh; padding-top: 5vh;">
+        <div *ngIf="fileGood" class="text-center">
+            <img src="../../assets/good.png" width="250px" height="250px">
+            <p style="padding-top: 5vh; color: white; font-weight:500; font-size: larger;">We have no information about this file</p>
+        </div>
+        <div *ngIf="fileBad"  class="text-center">
+            <img src="../../assets/bad.png" width="200px" height="200px" style="margin-top: 2vh; margin-bottom: 5vh;">
+            <p style="padding-top: 5vh; color: white; font-weight:500;  font-size: larger;">This file is malicious!</p>
+        </div>
+
+        <div *ngIf="userResult">
+            <div *ngIf="fileArray.length == 0" class="row">
+                <div class="col"></div>
+                <div class="col-lg-4 col-md-6 col-sm-8 col-12 card card-container" style="padding-top: 10vh; padding-bottom: 10vh; margin-top: 5vh;">
+                    <h4 class="text-center">This user uploaded no Files</h4>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div *ngIf="fileArray.length != 0">
+                <h5 class="text-center">Malicious files</h5>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-12 card card-container" style="padding-top: 2vh; padding-bottom: 2vh; margin-top: 2vh;">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let file of fileArray">
+                                <!-- {{url.addr}} -->
+                                {{file.fileName}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
